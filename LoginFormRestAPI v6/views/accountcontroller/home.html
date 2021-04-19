@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device, initial-scale=1">
+    <style>
+        body {
+            background-color: rgb(230, 230, 230);
+        }
+
+        div {
+            padding: 10px;
+        }
+
+        .divColor {
+            margin: 0 auto;
+            background-color: rgb(70, 130, 180);
+            width: 375px;
+            display: inline-block;
+        }
+
+        .nav {
+            overflow: hidden;
+            background-color: rgb(51, 51, 51);
+        }
+
+        .nav a {
+            float: left;
+            color: #f0e9e9;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            white-space: nowrap;
+            line-height: 60px;
+        }
+    </style>
+    <title>Home</title>
+</head>
+<body>
+    <header>
+        <div class="nav">
+            <a href="/profile">Profile</a>
+            <a href="/home">Home</a>
+            <a href="/friends/">Friends</a>
+            <a style="text-align: right;" href="/logout">Logout</a>
+        </div>
+    </header>
+
+    <table style="width: 90%; margin-left:auto; margin-right:auto; inset-block: inherit;">
+        <tr style="height:max-content">
+            <td>
+                <div style="vertical-align: text-top; background-color: rgb(169, 193, 238); overflow-wrap: break-word; position: relative;">
+                    <p>Left section</p>
+                    <a href="/profile">{{.fname}} {{.lname}}</a></br>
+                    <a href="/friends">Friends</a></br>
+                    <a href="/groups">Group</a></br>
+                </div>
+            </td>
+            <td style="overflow: hidden;">
+                <div style="background-color: rgb(169, 193, 238); overflow-wrap: break-word; overflow-y: scroll; position: relative; max-height: 600px;">
+                    <p>Post Section</p>
+                    <div id="postSection">
+                        {{.posts}}
+                    </div>
+                    
+                </div>
+            </td>
+            <td>
+                <div style="vertical-align: text-top; background-color: rgb(169, 193, 238); overflow-wrap: break-word; position: relative; overflow-y: scroll;">
+                    <p>Friends Section</p>
+                    <h1>Friends</h1>
+                </div>
+            </td>
+        </tr>
+    </table>
+    </br>
+    </br>
+    <tfoot class="border-top footer text-muted" style="border-top: gray;">
+        <div class="container">
+            &copy; 2021 - Dylan Scheidegg - Privacy</a>
+        </div>
+    </tfoot>
+
+    <script>
+        postSection = document.querySelector("postSection")
+
+        fetch("/home")
+            .then(response => response.json())
+            .then(posts => {
+                //Once we fetch the list, we iterate over it
+                posts.forEach(post => {
+                // Create the table row
+                div = document.createElement("div")
+        
+                // Create the table data elements for the species and description columns
+                Name = document.createElement("p")
+                Name.innerHTML = post.fName + " " + post.lName
+                pText = document.createElement("p")
+                pText.innerHTML = post.text
+                timDat = document.createElement("p")
+                timDat.innerHTML = post.date + " " + post.time
+        
+                // Add the data elements to the row
+                div.appendChild(Name)
+                div.appendChild(pText)
+                div.appendChild(timDat)
+                // Finally, add the row element to the table itself
+                postSection.appendChild(div)
+                })
+            })
+        </script>
+
+</body>
+</html>
